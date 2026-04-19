@@ -1,0 +1,10 @@
+minimumReleaseAge: 40320
+
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 80640
+
+blockExoticSubdeps: true
+
+packages:
+  - "apps/*"
+  - "packages/*"
