@@ -10,3 +10,9 @@ cdk cli-telemetry --disable
 cdk init app --language typescript --generate-only
 
 pnpm install
+
+## Nest
+
+nest new api --skip-git --skip-install
+
+pnpm --filter api test:e2e
