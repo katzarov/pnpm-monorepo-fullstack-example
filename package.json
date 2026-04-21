@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "iac:setup": "pnpm --filter iac cdklocal bootstrap",
+    "iac:deploy": "pnpm --filter iac cdklocal deploy"
   },
   "keywords": [],
   "author": "",
