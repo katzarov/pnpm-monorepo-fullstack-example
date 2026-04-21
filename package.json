@@ -8,7 +8,8 @@
     "api:build": "pnpm --filter api build",
     "api:build:bundle": "pnpm --filter api build:bundle",
     "iac:setup": "pnpm --filter iac cdklocal bootstrap",
-    "iac:deploy": "pnpm --filter iac cdklocal deploy"
+    "iac:deploy": "pnpm --filter iac cdklocal deploy",
+    "iac:destroy": "pnpm --filter iac cdklocal destroy"
   },
   "keywords": [],
   "author": "",

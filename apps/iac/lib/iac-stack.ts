@@ -18,17 +18,11 @@ export class IacStack extends cdk.Stack {
     //   }
     // });
 
-    const fn = new lambda.Function(this, 'HelloLambda', {
+    const fn = new lambda.Function(this, "ApiNestHandler", {
+      code: lambda.Code.fromAsset("../api/dist"),
       runtime: lambda.Runtime.NODEJS_22_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromInline(`
-        exports.handler = async () => {
-          return {
-            statusCode: 200,
-            body: JSON.stringify({ message: "hello from lambda" })
-          };
-        };
-      `),
+      handler: "main.handler",
+      environment: {},
     });
 
     new apigateway.LambdaRestApi(this, 'HelloApi', {
