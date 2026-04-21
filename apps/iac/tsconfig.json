@@ -21,9 +21,14 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
+    // maybe broken due to pnpm? can try shamefully hoisting
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "types": [
+      "node",
+      "jest"
+    ],
   },
   "exclude": [
     "node_modules",
