@@ -8,3 +8,6 @@ blockExoticSubdeps: true
 packages:
   - "apps/*"
   - "packages/*"
+  - "infra/*"
+  - "tests/*"
+
