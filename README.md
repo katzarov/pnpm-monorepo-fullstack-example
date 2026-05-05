@@ -43,3 +43,15 @@ pnpm --filter api test:e2e
 https://dev.to/slsbytheodo/nestjs-on-aws-lambda-the-ultimate-cdk-deployment-strategy-for-monolithic-apis-380j
 
 https://medium.com/@ddewaele/deploying-your-nestjs-app-as-a-lambda-behind-api-gateway-cbf5e61a6199
+
+
+## TODO
+
+move infra out of apps ?
+put whole thing in src ?
+setup testcontainers to invoke a deployment in test
+i htink my pnpm repo lacks a ts config....
+check the thing aobut :workspace/*
+
+create shared pkg that is api client or zod schemas and test that
+fix cdk stray files as well

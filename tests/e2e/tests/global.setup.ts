@@ -103,6 +103,8 @@ const url = outputs.IacStack.HelloApiUrl;
 
 console.log("APIURL is ", url);
 
+process.env.API_URL = url;
+
 
   // todo 
   // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/
