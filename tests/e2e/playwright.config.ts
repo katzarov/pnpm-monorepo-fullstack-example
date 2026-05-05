@@ -35,18 +35,33 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup infra',
+      timeout: 300000,
+      testDir: './tests',
+      testMatch: /global\.setup\.ts/,
+      teardown: 'destroy infra',
+    },
+    {
+      name: 'destroy infra',
+      testDir: './tests',
+      testMatch: /global\.teardown\.ts/,
+    },
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      dependencies: ['setup infra'],
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup infra'],
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      dependencies: ['setup infra'],
     },
 
     /* Test against mobile viewports. */
