@@ -1,9 +1,9 @@
+import { join } from 'node:path';
 import * as cdk from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
-// import path from 'node:path';
 // import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export class IacStack extends cdk.Stack {
@@ -18,8 +18,10 @@ export class IacStack extends cdk.Stack {
     //   }
     // });
 
+    const codeDistPath = join(__dirname, "../../api/dist")
+
     const fn = new lambda.Function(this, "ApiNestHandler", {
-      code: lambda.Code.fromAsset("../api/dist"),
+      code: lambda.Code.fromAsset(codeDistPath),
       runtime: lambda.Runtime.NODEJS_22_X,
       handler: "main.handler",
       environment: {},
