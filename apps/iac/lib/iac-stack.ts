@@ -27,8 +27,12 @@ export class IacStack extends cdk.Stack {
       environment: {},
     });
 
-    new apigateway.LambdaRestApi(this, 'HelloApi', {
+    const api = new apigateway.LambdaRestApi(this, 'HelloApi', {
       handler: fn,
+    });
+
+    new cdk.CfnOutput(this, 'HelloApiUrl', {
+      value: api.url,
     });
 
   }

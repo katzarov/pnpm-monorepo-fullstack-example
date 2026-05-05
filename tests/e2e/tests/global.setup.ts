@@ -97,7 +97,12 @@ setup('create infra', async ({ }) => {
 
   console.log(outputDeploy);
 
-  const t = 'wait'
+const outputs = require("./../../../apps/iac/cdk-outputs.json");
+
+const url = outputs.IacStack.HelloApiUrl;
+
+console.log("APIURL is ", url);
+
 
   // todo 
   // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/

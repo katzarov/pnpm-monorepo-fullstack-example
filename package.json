@@ -8,7 +8,7 @@
     "api:build:bundle": "pnpm --filter api build:bundle",
     "iac:setup": "pnpm --filter iac cdklocal bootstrap",
     "iac:deploy": "pnpm --filter iac cdklocal deploy",
-    "iac:deploy:ci": "pnpm --filter iac cdklocal deploy --require-approval never --progress events",
+    "iac:deploy:ci": "pnpm --filter iac cdklocal deploy --require-approval never --progress events --outputs-file cdk-outputs.json",
     "iac:destroy": "pnpm --filter iac cdklocal destroy",
     "test:e2e": "pnpm --filter e2e pw test",
     "test:e2e:ui": "pnpm --filter e2e pw test --ui",
