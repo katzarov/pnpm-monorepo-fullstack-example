@@ -2,7 +2,7 @@ import { execSync } from "node:child_process"
 import { join, resolve } from "node:path"
 import { loadEnvFile } from 'node:process';
 import { test as setup } from '@playwright/test';
-import { LocalstackContainer } from '@testcontainers/localstack'
+import { DockerComposeEnvironment, Wait, LABEL_TESTCONTAINERS_SESSION_ID } from "testcontainers";
 
 // https://github.com/testcontainers/testcontainers-node/issues/1274
 // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/
@@ -18,45 +18,64 @@ setup('create infra', async ({ }) => {
     throw Error("No localstack token");
   }
 
-  // i might prefer to do this form a docker compose file actually
-  const localstack = await new LocalstackContainer("localstack/localstack-pro:latest")
+  const composeFilePath = join(__dirname, '../../../');
+  const composeFile = "docker-compose.yml";
+
+  const lsContainerName = 'e2e-localstack-main';
+
+  // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/#_top
+  const environment = await new DockerComposeEnvironment(composeFilePath, composeFile)
+    .withEnvironmentFile(envPath)
     .withEnvironment({
-      LOCALSTACK_AUTH_TOKEN: process.env.LOCALSTACK_AUTH_TOKEN,
-      DEBUG: "1",
-      LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT: "90"
-      // DOCKER_HOST: "tcp://docker:2375"
+      LOCALSTACK_DOCKER_NAME: lsContainerName,
+      // LAMBDA_DOCKER_FLAGS: LABEL_TESTCONTAINERS_SESSION_ID,
+      // LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT: '90'
     })
-    .withNetworkAliases("localstack")
-    // "/var/run/docker.sock:/var/run/docker.sock"
-    .withBindMounts([{
-      source: "/var/run/docker.sock",
-      target: "/var/run/docker.sock"
-    }])
-    .start();
+    .withWaitStrategy(lsContainerName, Wait.forLogMessage("Ready."))
+    .up();
 
-  const endpoint = localstack.getConnectionUri();
 
-  // todo ai slop
-  // https://github.com/localstack/aws-cdk-local?tab=readme-ov-file#configurations
-  const env = {
-    ...process.env,
 
-    AWS_ACCESS_KEY_ID: 'test',
-    AWS_SECRET_ACCESS_KEY: 'test',
-    // CDK_DEFAULT_ACCOUNT: "000000000000",
-    // AWS_DEFAULT_ACCOUNT: "000000000000",
+  // // i might prefer to do this form a docker compose file actually
+  // const localstack = await new LocalstackContainer("localstack/localstack-pro:latest")
+  //   .withEnvironment({
+  //     LOCALSTACK_AUTH_TOKEN: process.env.LOCALSTACK_AUTH_TOKEN,
+  //     DEBUG: "1",
+  //     LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT: "90"
+  //     // DOCKER_HOST: "tcp://docker:2375"
+  //   })
+  //   .withNetworkAliases("localstack")
+  //   // "/var/run/docker.sock:/var/run/docker.sock"
+  //   .withBindMounts([{
+  //     source: "/var/run/docker.sock",
+  //     target: "/var/run/docker.sock"
+  //   }])
+  //   .start();
 
-    // CDK_DEFAULT_REGION: "us-east-1",
-    AWS_DEFAULT_REGION: 'us-east-1',
+  // const endpoint = localstack.getConnectionUri();
 
-    AWS_ENDPOINT_URL: endpoint,
-    AWS_ENDPOINT_URL_S3: endpoint,
+  // // todo ai slop
+  // // https://github.com/localstack/aws-cdk-local?tab=readme-ov-file#configurations
+  // const env = {
+  //   ...process.env,
 
-    // LOCALSTACK_AUTH_TOKEN: process.env.LOCALSTACK_AUTH_TOKEN
+  //   AWS_ACCESS_KEY_ID: 'test',
+  //   AWS_SECRET_ACCESS_KEY: 'test',
+  //   // CDK_DEFAULT_ACCOUNT: "000000000000",
+  //   // AWS_DEFAULT_ACCOUNT: "000000000000",
 
-    // ENDPOINT_URL: endpoint
-    // LOCALSTACK_HOST: endpoint.replace('http://', ''), // deprecated
-  };
+  //   // CDK_DEFAULT_REGION: "us-east-1",
+  //   AWS_DEFAULT_REGION: 'us-east-1',
+
+  //   AWS_ENDPOINT_URL: endpoint,
+  //   AWS_ENDPOINT_URL_S3: endpoint,
+
+  //   // LOCALSTACK_AUTH_TOKEN: process.env.LOCALSTACK_AUTH_TOKEN
+
+  //   // ENDPOINT_URL: endpoint
+  //   // LOCALSTACK_HOST: endpoint.replace('http://', ''), // deprecated
+  // };
+
 
 
   const rootDir = resolve(__dirname, '../../../')
@@ -64,7 +83,7 @@ setup('create infra', async ({ }) => {
   const outputSetup = execSync("pnpm iac:setup", {
     encoding: 'utf-8',
     cwd: rootDir,
-    env
+    // env
   });
 
   console.log(outputSetup);
@@ -73,10 +92,12 @@ setup('create infra', async ({ }) => {
     maxBuffer: 99999999999999999,
     encoding: 'utf-8',
     cwd: rootDir,
-    env
+    // env
   });
 
   console.log(outputDeploy);
+
+  const t = 'wait'
 
   // todo 
   // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/

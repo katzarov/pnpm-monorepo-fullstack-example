@@ -144,6 +144,9 @@ importers:
       '@types/node':
         specifier: ^25.5.2
         version: 25.5.2
+      testcontainers:
+        specifier: ^11.13.0
+        version: 11.13.0
 
 packages:
 
