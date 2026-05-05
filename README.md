@@ -47,6 +47,11 @@ https://medium.com/@ddewaele/deploying-your-nestjs-app-as-a-lambda-behind-api-ga
 
 ## TODO
 
+support 2 configs:
+- one oss for onprem, so a simple docker-compose/swarm, postgres, nginx etc
+- one aws eda (lambda, dynamodb etc)
+- run same e2e tests through all configs
+
 localstack per test deploymetn fix -> we want to have a long lived ls dev and shortlived ls per test run
 
 move infra out of apps ?
