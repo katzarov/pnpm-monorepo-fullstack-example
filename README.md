@@ -47,6 +47,8 @@ https://medium.com/@ddewaele/deploying-your-nestjs-app-as-a-lambda-behind-api-ga
 
 ## TODO
 
+localstack per test deploymetn fix -> we want to have a long lived ls dev and shortlived ls per test run
+
 move infra out of apps ?
 put whole thing in src ?
 setup testcontainers to invoke a deployment in test
