@@ -9,7 +9,7 @@ test('to have text', async ({ page }) => {
     throw Error("No Api URL")
   }
 
-  const pageText = 'Hello World from Nest!';
+  const pageText = 'Hello World from Nest!' + "Hello from shared package";
 
   await page.goto(apiUrl);
   const locator = page.getByText(pageText)

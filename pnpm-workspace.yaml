@@ -5,6 +5,8 @@ trustPolicyIgnoreAfter: 80640
 
 blockExoticSubdeps: true
 
+# linkWorkspacePackages: true ?
+
 packages:
   - "apps/*"
   - "infra/*"

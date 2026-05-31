@@ -10,6 +10,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@bt/schemas':
+        specifier: workspace:*
+        version: link:../../packages/schemas
       '@codegenie/serverless-express':
         specifier: ^4.17.1
         version: 4.17.1
@@ -132,6 +135,12 @@ importers:
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
+
+  packages/schemas:
+    dependencies:
+      zod:
+        specifier: ^4.4.2
+        version: 4.4.2
 
   tests/e2e:
     devDependencies:
@@ -3431,6 +3440,9 @@ packages:
   zip-stream@6.0.1:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
+
+  zod@4.4.2:
+    resolution: {integrity: sha512-IynmDyxsEsb9RKzO3J9+4SxXnl2FTFSzNBaKKaMV6tsSk0rw9gYw9gs+JFCq/qk2LCZ78KDwyj+Z289TijSkUw==}
 
 snapshots:
 
@@ -7181,3 +7193,5 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+
+  zod@4.4.2: {}
