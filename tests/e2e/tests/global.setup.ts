@@ -80,7 +80,7 @@ setup('create infra', async ({ }) => {
 
   const rootDir = resolve(__dirname, '../../../')
 
-  const outputSetup = execSync("pnpm iac:setup", {
+  const outputSetup = execSync("pnpm aws-eda:local:setup", {
     encoding: 'utf-8',
     cwd: rootDir,
     // env
@@ -88,7 +88,7 @@ setup('create infra', async ({ }) => {
 
   console.log(outputSetup);
 
-  const outputDeploy = execSync("pnpm iac:deploy:ci", {
+  const outputDeploy = execSync("pnpm aws-eda:local:deploy:ci", {
     maxBuffer: 99999999999999999,
     encoding: 'utf-8',
     cwd: rootDir,
@@ -97,7 +97,7 @@ setup('create infra', async ({ }) => {
 
   console.log(outputDeploy);
 
-const outputs = require("./../../../apps/iac/cdk-outputs.json");
+const outputs = require("./../../../infra/aws-eda/cdk-outputs.json");
 
 const url = outputs.IacStack.HelloApiUrl;
 

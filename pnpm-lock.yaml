@@ -102,7 +102,7 @@ importers:
         specifier: ^8.20.0
         version: 8.57.1(eslint@9.39.4)(typescript@5.9.3)
 
-  apps/iac:
+  infra/aws-eda:
     dependencies:
       aws-cdk-lib:
         specifier: ^2.241.0

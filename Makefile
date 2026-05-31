@@ -6,7 +6,7 @@ build:
 .PHONY: test
 test:
 # 	todo test unit/integration
-	pnpm test:e2e
+	pnpm e2e
 
 .PHONY: ci
 ci:

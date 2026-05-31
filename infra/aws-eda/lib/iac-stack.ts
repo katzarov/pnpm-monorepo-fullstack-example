@@ -18,7 +18,7 @@ export class IacStack extends cdk.Stack {
     //   }
     // });
 
-    const codeDistPath = join(__dirname, "../../api/dist")
+    const codeDistPath = join(__dirname, "../../../apps/api/dist")
 
     const fn = new lambda.Function(this, "ApiNestHandler", {
       code: lambda.Code.fromAsset(codeDistPath),
