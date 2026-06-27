@@ -2,7 +2,7 @@ import { execSync } from "node:child_process"
 import { join, resolve } from "node:path"
 import { loadEnvFile } from 'node:process';
 import { test as setup } from '@playwright/test';
-import { DockerComposeEnvironment, Wait, LABEL_TESTCONTAINERS_SESSION_ID } from "testcontainers";
+import { DockerComposeEnvironment, Wait, LABEL_TESTCONTAINERS_SESSION_ID, getContainerRuntimeClient, getReaper } from "testcontainers";
 
 // https://github.com/testcontainers/testcontainers-node/issues/1274
 // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/
@@ -23,12 +23,16 @@ setup('create infra', async ({ }) => {
 
   const lsContainerName = 'e2e-localstack-main';
 
+  // https://github.com/testcontainers/testcontainers-node/blob/main/packages/modules/localstack/src/localstack-container.ts
+    const client = await getContainerRuntimeClient();
+    const reaper = await getReaper(client);
+
   // https://docs.localstack.cloud/aws/tutorials/gitlab-ci-testcontainers/#_top
   const environment = await new DockerComposeEnvironment(composeFilePath, composeFile)
     .withEnvironmentFile(envPath)
     .withEnvironment({
       LOCALSTACK_DOCKER_NAME: lsContainerName,
-      // LAMBDA_DOCKER_FLAGS: LABEL_TESTCONTAINERS_SESSION_ID,
+      LAMBDA_DOCKER_FLAGS: `--label ${LABEL_TESTCONTAINERS_SESSION_ID}=${reaper.sessionId}`,
       // LAMBDA_RUNTIME_ENVIRONMENT_TIMEOUT: '90'
     })
     .withWaitStrategy(lsContainerName, Wait.forLogMessage("Ready."))
